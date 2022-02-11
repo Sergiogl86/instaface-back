@@ -9,6 +9,8 @@ import { noEncontradoHandler, finalErrorHandler } from "./middlewares/error";
 
 import usersRoutes from "./routes/usersRoutes";
 
+import pictureRoutes from "./routes/pictureRoutes";
+
 const debug = Debug("instaface:indexServer");
 
 const app = express();
@@ -52,6 +54,8 @@ app.use(cors()); // <---- use cors middleware
 app.use(express.json());
 
 app.use("/instaface/users/", usersRoutes);
+
+app.use("/instaface/picture/", pictureRoutes);
 
 app.use(noEncontradoHandler);
 app.use(finalErrorHandler);
