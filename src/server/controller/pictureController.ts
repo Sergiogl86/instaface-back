@@ -53,6 +53,90 @@ const allPictures = async (
   }
 };
 
+const allPicturesMessages = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
+  try {
+    const pictures: PictureInterface[] = await Picture.find({})
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(pictures));
+
+    const picturesMessages: PictureInterface[] = pictures.filter(
+      (picture: PictureInterface) => picture.messageId?.length > 0
+    );
+
+    res.json(picturesMessages);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
+const allPicturesNoMessages = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
+  try {
+    const pictures: PictureInterface[] = await Picture.find({})
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(pictures));
+
+    const picturesMessages: PictureInterface[] = pictures.filter(
+      (picture: PictureInterface) => picture.messageId?.length === 0
+    );
+
+    res.json(picturesMessages);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
 const addPicture = async (
   req: RequestAuth,
   res: express.Response,
@@ -62,6 +146,7 @@ const addPicture = async (
     description: req.body.description,
     urlPicture: req.file.fileURL,
     userId: req.userid,
+    messageId: [],
   };
   debug(chalk.blue("Ha accedido el usuario ->"));
   debug(chalk.blue(req.userid));
@@ -120,4 +205,143 @@ const deletePicture = async (
   }
 };
 
-export { allPictures, addPicture, deletePicture };
+const userPictures = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/user"));
+  debug(chalk.blue("req.userid"));
+  debug(chalk.blue(req.userid));
+  try {
+    const pictures: PictureInterface[] = await Picture.find({
+      userId: req.userid,
+    })
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(pictures));
+    res.json(pictures);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
+const userPicturesMessages = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
+  try {
+    const pictures: PictureInterface[] = await Picture.find({
+      userId: req.userid,
+    })
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(pictures));
+
+    const picturesMessages: PictureInterface[] = pictures.filter(
+      (picture: PictureInterface) => picture.messageId?.length > 0
+    );
+
+    res.json(picturesMessages);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
+const userPicturesNoMessages = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
+  try {
+    const pictures: PictureInterface[] = await Picture.find({
+      userId: req.userid,
+    })
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(pictures));
+
+    const picturesMessages: PictureInterface[] = pictures.filter(
+      (picture: PictureInterface) => picture.messageId?.length === 0
+    );
+
+    res.json(picturesMessages);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
+export {
+  allPictures,
+  addPicture,
+  deletePicture,
+  userPictures,
+  allPicturesMessages,
+  userPicturesMessages,
+  allPicturesNoMessages,
+  userPicturesNoMessages,
+};
