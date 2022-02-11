@@ -6,7 +6,7 @@ import Debug from "debug";
 import jwt from "jsonwebtoken";
 import { RequestAuth } from "../../database/namespaces/expressNamespace";
 
-const debug = Debug("instaface::Auth");
+const debug = Debug("instaface:Auth");
 
 class ErrorCode extends Error {
   code: number | undefined;

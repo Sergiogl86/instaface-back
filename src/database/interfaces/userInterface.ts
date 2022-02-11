@@ -8,4 +8,5 @@ interface UserInterface {
   save?: any;
   includes?: any;
 }
+
 export default UserInterface;
