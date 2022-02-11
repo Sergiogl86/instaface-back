@@ -7,6 +7,10 @@ const recetaSchema: Schema<PictureInterface> = new Schema({
     maxLength: 100,
     required: true,
   },
+  pictureDate: {
+    type: Date,
+    default: Date.now(),
+  },
   pictureUser: {
     type: Types.ObjectId,
     ref: "User",
