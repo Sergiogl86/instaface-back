@@ -3,8 +3,8 @@ interface PictureInterface {
   _id?: string;
   description: string;
   pictureDate?: Date;
-  pictureUser?: string;
+  userId?: string;
+  messageId?: string[];
   urlPicture: string;
-  messagePicture?: string[];
 }
 export default PictureInterface;
