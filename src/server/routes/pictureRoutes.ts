@@ -1,7 +1,11 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-import { addPicture, deletePicture } from "../controller/pictureController";
+import {
+  allPictures,
+  addPicture,
+  deletePicture,
+} from "../controller/pictureController";
 
 import Auth from "../middlewares/auth";
 
@@ -26,6 +30,8 @@ const upload = multer({
 });
 
 const router = express.Router();
+
+router.get("/all", allPictures);
 
 router.post("/publicar", upload.single("picture"), firebase, Auth, addPicture);
 router.post("/borrar", Auth, deletePicture);

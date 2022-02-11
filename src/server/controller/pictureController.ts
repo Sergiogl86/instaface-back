@@ -16,6 +16,43 @@ class ErrorCode extends Error {
   code: number | undefined;
 }
 
+const allPictures = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
+  try {
+    const picture: PictureInterface[] = await Picture.find({})
+      .sort({ pictureDate: "desc" })
+      .populate({
+        path: "userId",
+        select: "id nombreUsuario urlFotoUser",
+      })
+      .populate({
+        path: "messageId",
+        select: "messageText messageDate userId",
+        options: { sort: { messageDate: "desc" } },
+        populate: {
+          path: "userId",
+          select: "nombreUsuario urlFotoUser",
+        },
+      });
+    debug(chalk.blue("Populate el picture->"));
+    debug(chalk.blue(picture));
+    res.json(picture);
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 401;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
 const addPicture = async (
   req: RequestAuth,
   res: express.Response,
@@ -83,4 +120,4 @@ const deletePicture = async (
   }
 };
 
-export { addPicture, deletePicture };
+export { allPictures, addPicture, deletePicture };
