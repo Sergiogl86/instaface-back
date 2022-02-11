@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 
-import { addUser } from "../controller/usersController";
+import { addUser, loginUser } from "../controller/usersController";
 
 import firebase from "../middlewares/firebase";
 
@@ -27,5 +27,7 @@ const upload = multer({
 const router = express.Router();
 
 router.post("/register", upload.single("userImg"), firebase, addUser);
+
+router.post("/login", loginUser);
 
 export default router;

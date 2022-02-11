@@ -5,7 +5,7 @@ import chalk from "chalk";
 import bcrypt from "bcrypt";
 
 import Debug from "debug";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import User from "../../database/models/user";
 import UserInterface from "../../database/interfaces/userInterface";
 
@@ -47,4 +47,50 @@ const addUser = async (req: RequestAuth, res: express.Response, next: any) => {
   }
 };
 
-export { addUser };
+const loginUser = async (
+  req: express.Request,
+  res: express.Response,
+  next: any
+) => {
+  const { nombreUsuario, password } = req.body;
+  debug(chalk.blue("Haciendo un post a /queteca/users/login"));
+  debug(chalk.blue("loginUser"));
+  debug(chalk.blue(nombreUsuario));
+  debug(chalk.blue(password));
+  const user: UserInterface | null = await User.findOne({ nombreUsuario });
+  debug(chalk.blue(`El usuario encontrado es ${JSON.stringify(user)}`));
+  debug(chalk.blue(user));
+  if (!user) {
+    const error = new ErrorCode("Error de credenciales!");
+    error.code = 401;
+    debug(chalk.blue(`El usuario no existe ${JSON.stringify(error)}`));
+    next(error);
+  } else {
+    const contraseñaOK = await bcrypt.compare(password, user.password);
+    debug(chalk.blue(contraseñaOK));
+    if (!contraseñaOK) {
+      const error = new ErrorCode("Error de credenciales!");
+      error.code = 401;
+      next(error);
+    } else {
+      debug(chalk.blue("Seguimos para generar el Token!"));
+      debug(chalk.blue(`Codificando: ${user.id}`));
+      debug(chalk.blue(`Codificando: ${user.nombreUsuario}`));
+      const token = jwt.sign(
+        {
+          id: user.id,
+          nombre: user.nombre,
+          nombreUsuario: user.nombreUsuario,
+          urlFotoUser: user.urlFotoUser,
+        },
+        `${process.env.RED_HASH}`,
+        {
+          expiresIn: 24 * 60 * 60,
+        }
+      );
+      res.json({ token });
+    }
+  }
+};
+
+export { addUser, loginUser };
