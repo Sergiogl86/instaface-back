@@ -7,6 +7,8 @@ import morgan from "morgan";
 import express from "express";
 import { noEncontradoHandler, finalErrorHandler } from "./middlewares/error";
 
+import usersRoutes from "./routes/usersRoutes";
+
 const debug = Debug("instaface:indexServer");
 
 const app = express();
@@ -48,6 +50,8 @@ app.use(morgan("dev"));
 app.use(cors()); // <---- use cors middleware
 
 app.use(express.json());
+
+app.use("/instaface/users/", usersRoutes);
 
 app.use(noEncontradoHandler);
 app.use(finalErrorHandler);
