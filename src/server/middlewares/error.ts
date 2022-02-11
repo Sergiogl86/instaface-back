@@ -2,7 +2,7 @@ import * as express from "express";
 
 import Debug from "debug";
 
-const debug = Debug("queteca:error");
+const debug = Debug("instaface:error");
 
 const noEncontradoHandler = (req: express.Request, res: express.Response) => {
   res.status(404).json({ error: "Endpoint no encontrado!" });
