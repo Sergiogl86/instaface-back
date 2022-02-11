@@ -12,7 +12,7 @@ import { RequestAuth } from "../../database/namespaces/expressNamespace";
 import UserInterface from "../../database/interfaces/userInterface";
 import PictureInterface from "../../database/interfaces/pictureInterface";
 
-const debug = Debug("instaface:recetaController");
+const debug = Debug("instaface:pictureController");
 
 class ErrorCode extends Error {
   code: number | undefined;
@@ -37,7 +37,7 @@ const addPicture = async (
     const pictureCreada: PictureInterface = await Picture.create(picture);
     debug(chalk.blue("Se ha creado la picture ->"));
     debug(chalk.blue(JSON.stringify(pictureCreada)));
-    res.json({ receta: "Creada correctamente!" });
+    res.json({ picture: "Creada correctamente!" });
   } catch (problem) {
     debug(chalk.blue("El detonante el catch es->"));
     debug(chalk.blue(problem));
@@ -50,4 +50,39 @@ const addPicture = async (
   }
 };
 
-export { addPicture };
+const deletePicture = async (
+  req: RequestAuth,
+  res: express.Response,
+  next: any
+) => {
+  debug(chalk.blue("Haciendo un delete a /instaface/picture/borrar"));
+  debug(chalk.blue("req.userid"));
+  debug(chalk.blue(req.userid));
+  const { pictureId } = req.body;
+  try {
+    const picture: any = await Picture.findById(pictureId);
+    debug(chalk.blue("picture.pictureUser"));
+    debug(chalk.blue(picture.pictureUser));
+    if (picture.pictureUser.equals(req.userid)) {
+      const removePicture = await Picture.findOneAndDelete({ _id: pictureId });
+      debug(chalk.blue("deletePicture"));
+      debug(chalk.blue(removePicture));
+      res.json({ picture: "Publicación borrada!" });
+    } else {
+      const error = new ErrorCode("La publicación no pertece al user!");
+      error.code = 401;
+      next(error);
+    }
+  } catch (problem) {
+    debug(chalk.blue("El detonante el catch es->"));
+    debug(chalk.blue(problem));
+    const error = new ErrorCode("Datos erroneos!");
+    error.code = 400;
+    debug(
+      chalk.blue(`Hemos creado el error de usuario ${JSON.stringify(error)}`)
+    );
+    next(error);
+  }
+};
+
+export { addPicture, deletePicture };
