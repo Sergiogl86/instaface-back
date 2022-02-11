@@ -4,12 +4,10 @@ import chalk from "chalk";
 
 import Debug from "debug";
 
-import User from "../../database/models/user";
 import Picture from "../../database/models/picture";
 
 import { RequestAuth } from "../../database/namespaces/expressNamespace";
 
-import UserInterface from "../../database/interfaces/userInterface";
 import PictureInterface from "../../database/interfaces/pictureInterface";
 
 const debug = Debug("instaface:pictureController");
@@ -63,7 +61,7 @@ const deletePicture = async (
     const picture: any = await Picture.findById(pictureId);
     debug(chalk.blue("picture.pictureUser"));
     debug(chalk.blue(picture.pictureUser));
-    if (picture.pictureUser.equals(req.userid)) {
+    if (picture.userId.equals(req.userid)) {
       const removePicture = await Picture.findOneAndDelete({ _id: pictureId });
       debug(chalk.blue("deletePicture"));
       debug(chalk.blue(removePicture));
