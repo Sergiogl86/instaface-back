@@ -26,7 +26,7 @@ const addPicture = async (
   const picture: PictureInterface = {
     description: req.body.description,
     urlPicture: req.file.fileURL,
-    pictureUser: req.userid,
+    userId: req.userid,
   };
   debug(chalk.blue("Ha accedido el usuario ->"));
   debug(chalk.blue(req.userid));

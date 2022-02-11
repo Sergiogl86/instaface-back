@@ -1,7 +1,7 @@
 import { Schema, model, Types } from "mongoose";
 import PictureInterface from "../interfaces/pictureInterface";
 
-const recetaSchema: Schema<PictureInterface> = new Schema({
+const pictureSchema: Schema<PictureInterface> = new Schema({
   description: {
     type: String,
     maxLength: 100,
@@ -11,23 +11,25 @@ const recetaSchema: Schema<PictureInterface> = new Schema({
     type: Date,
     default: Date.now(),
   },
-  pictureUser: {
+  userId: {
     type: Types.ObjectId,
     ref: "User",
     required: true,
+  },
+  messageId: {
+    type: [Types.ObjectId],
+    ref: "Message",
+    default: [],
   },
   urlPicture: {
     type: String,
     required: true,
   },
-  messagePicture: {
-    type: String,
-  },
 });
 
 const Picture = model<PictureInterface>(
   "Picture",
-  recetaSchema,
+  pictureSchema,
   "publicaciones"
 );
 

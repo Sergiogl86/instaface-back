@@ -11,6 +11,8 @@ import usersRoutes from "./routes/usersRoutes";
 
 import pictureRoutes from "./routes/pictureRoutes";
 
+import messageRoutes from "./routes/messageRoutes";
+
 const debug = Debug("instaface:indexServer");
 
 const app = express();
@@ -56,6 +58,8 @@ app.use(express.json());
 app.use("/instaface/users/", usersRoutes);
 
 app.use("/instaface/picture/", pictureRoutes);
+
+app.use("/instaface/message/", messageRoutes);
 
 app.use(noEncontradoHandler);
 app.use(finalErrorHandler);
