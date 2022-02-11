@@ -4,7 +4,7 @@ interface PictureInterface {
   description: string;
   pictureDate?: Date;
   userId?: string;
-  messageId?: string[];
+  messageId: string[];
   urlPicture: string;
 }
 export default PictureInterface;

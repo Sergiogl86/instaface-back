@@ -5,6 +5,11 @@ import {
   allPictures,
   addPicture,
   deletePicture,
+  userPictures,
+  allPicturesMessages,
+  userPicturesMessages,
+  allPicturesNoMessages,
+  userPicturesNoMessages,
 } from "../controller/pictureController";
 
 import Auth from "../middlewares/auth";
@@ -32,6 +37,12 @@ const upload = multer({
 const router = express.Router();
 
 router.get("/all", allPictures);
+router.get("/allMessage", allPicturesMessages);
+router.get("/allNoMessage", allPicturesNoMessages);
+
+router.get("/user", Auth, userPictures);
+router.get("/userMessage", Auth, userPicturesMessages);
+router.get("/userNoMessage", Auth, userPicturesNoMessages);
 
 router.post("/publicar", upload.single("picture"), firebase, Auth, addPicture);
 router.post("/borrar", Auth, deletePicture);
