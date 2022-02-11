@@ -9,7 +9,7 @@ import Debug from "debug";
 import User from "../../database/models/user";
 import UserInterface from "../../database/interfaces/userInterface";
 
-// import { RequestAuth } from "../../database/namespaces/expressNamespace";
+import { RequestAuth } from "../../database/namespaces/expressNamespace";
 
 const debug = Debug("instaface:usersController");
 
@@ -17,13 +17,11 @@ class ErrorCode extends Error {
   code: number | undefined;
 }
 
-const addUser = async (
-  req: express.Request,
-  res: express.Response,
-  next: any
-) => {
+const addUser = async (req: RequestAuth, res: express.Response, next: any) => {
   const userBody = req.body;
-  // userBody.urlFotoUser = req.file.fileURL;
+  debug(chalk.blue("Nos llega en el file el user ->"));
+  userBody.urlFotoUser = req.file.fileURL;
+  debug(chalk.blue(JSON.stringify(userBody)));
   debug(chalk.blue("Haciendo un post a instaface/users/register"));
   debug(chalk.blue("Nos llega en el body el user ->"));
   debug(chalk.blue(JSON.stringify(userBody)));
