@@ -70,14 +70,18 @@ const deleteMessage = async (
   const { messageId } = req.body;
   try {
     const message: any = await Message.findById(messageId);
+
+    const buscarPicture: any = await Picture.findById(message.pictureId);
+
     debug(chalk.blue("message.userId"));
     debug(chalk.blue(message.userId));
-    if (message.userId.equals(req.userid)) {
+    if (
+      message.userId.equals(req.userid) ||
+      buscarPicture.userId.equals(req.userid)
+    ) {
       const removeMessage = await Message.findOneAndDelete({ _id: messageId });
       debug(chalk.blue("removeMessage"));
       debug(chalk.blue(removeMessage));
-
-      const buscarPicture: any = await Picture.findById(message.pictureId);
 
       debug(chalk.blue("Se borra de la Picture->"));
       debug(chalk.blue(JSON.stringify(buscarPicture)));
