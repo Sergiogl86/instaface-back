@@ -32,7 +32,7 @@ const allPictures = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -69,7 +69,7 @@ const allPicturesMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -111,7 +111,7 @@ const allPicturesNoMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -225,7 +225,7 @@ const userPictures = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -265,7 +265,7 @@ const userPicturesMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -309,6 +309,7 @@ const userPicturesNoMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
+        options: { sort: "-_id" },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
