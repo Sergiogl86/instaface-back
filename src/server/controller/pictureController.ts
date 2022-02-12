@@ -24,7 +24,7 @@ const allPictures = async (
   debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
   try {
     const picture: PictureInterface[] = await Picture.find({})
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -32,7 +32,7 @@ const allPictures = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
+
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -61,7 +61,7 @@ const allPicturesMessages = async (
   debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
   try {
     const pictures: PictureInterface[] = await Picture.find({})
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -69,7 +69,7 @@ const allPicturesMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
+
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -103,7 +103,7 @@ const allPicturesNoMessages = async (
   debug(chalk.blue("Haciendo un get a /instaface/pictures/all"));
   try {
     const pictures: PictureInterface[] = await Picture.find({})
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -111,7 +111,7 @@ const allPicturesNoMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
+
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -217,7 +217,7 @@ const userPictures = async (
     const pictures: PictureInterface[] = await Picture.find({
       userId: req.userid,
     })
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -225,7 +225,7 @@ const userPictures = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
+
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -257,7 +257,7 @@ const userPicturesMessages = async (
     const pictures: PictureInterface[] = await Picture.find({
       userId: req.userid,
     })
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -265,7 +265,7 @@ const userPicturesMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
+
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
@@ -301,7 +301,7 @@ const userPicturesNoMessages = async (
     const pictures: PictureInterface[] = await Picture.find({
       userId: req.userid,
     })
-      .sort({ pictureDate: "desc" })
+      .sort({ _id: -1 })
       .populate({
         path: "userId",
         select: "id nombreUsuario urlFotoUser",
@@ -309,7 +309,6 @@ const userPicturesNoMessages = async (
       .populate({
         path: "messageId",
         select: "messageText messageDate userId",
-        options: { sort: { messageDate: "desc" } },
         populate: {
           path: "userId",
           select: "nombreUsuario urlFotoUser",
