@@ -53,7 +53,7 @@ const loginUser = async (
   next: any
 ) => {
   const { nombreUsuario, password } = req.body;
-  debug(chalk.blue("Haciendo un post a /queteca/users/login"));
+  debug(chalk.blue("Haciendo un post a /instaface/users/login"));
   debug(chalk.blue("loginUser"));
   debug(chalk.blue(nombreUsuario));
   debug(chalk.blue(password));
